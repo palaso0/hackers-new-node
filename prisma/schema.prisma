@@ -1,0 +1,28 @@
+// DB Connection
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+//Generator: Lo que se queire generar en Prisma Client
+generator client {
+  provider = "prisma-client-js"
+}
+
+//Data Model
+model Link {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  description String
+  url         String
+  postedBy    User?    @relation(fields: [postedById], references: [id])
+  postedById  Int?
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String
+  password String
+  links    Link[]
+}
